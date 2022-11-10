@@ -47,10 +47,10 @@ void main() {
   print_array(test, _size); //Sort it, print it again. Allow for visual verification of the data. 
 
   //calculate statistical values
-  find_mean(test,_size);
-  find_median(test,_size);
-  find_maximum(test,_size);
-  find_minimum(test,_size);
+  stats_mean = find_mean(test,_size);
+  stats_median = find_median(test,_size);
+  stats_maximum = find_maximum(test,_size);
+  stats_minimum = find_minimum(test,_size);
 
 
   print_statistics(test,_size); 
@@ -62,7 +62,7 @@ void main() {
 void print_statistics()
 {
   printf("Mean: %i\r\n",stats_mean);
-  printf("Median: %i\r\n",stats_mean);
+  printf("Median: %i\r\n",stats_median);
   printf("Minimum: %i\r\n",stats_minimum);
   printf("Maximum: %i\r\n",stats_maximum);
 }
@@ -79,56 +79,54 @@ void print_array (uint8 data[], uint length)
 void sort_array(uint8 data[], uint length)
 {
   
-    //just use a basic insertion sort, it's not the most efficient but it's easy to implement in c, and it runs fast when it's already sorted
-  uint8 current = data[0]; 
-  for(int i = length - 1; i >= 0; i--)
+    //just use a basic insertion sort, it's not the most efficient but it's easy to implement in c, and it runs fast when it's already sorted;
+  int i = 1; 
+  while(i < length)
   {
-    for(int j = i-1; j >= 0; j--)
-    { 
-      if(data[j] > data[j + 1])
-      {
-        current = data[j]; 
-        data[j] = data[j+1];
-        data[j+1] = current; 
-      }
-      else
-        break; 
+    int j = i; 
+    while (j > 0 && data[j] > data[j-1])
+    {
+      uint tmp = data[j];
+      data[j] = data[j-1];
+      data[j-1] = tmp;
+
+      j--;  
     }
+    i++; 
   }
 
 }
 
 uint8 find_mean(uint8 data[], uint length)
 {
-  uint total; 
+  unsigned long total = 0; 
   for(int i = 0; i < length; i++)
   {
-    total += (uint)data[i];
+    total += (unsigned long)data[i];
   }  
-  stats_mean = total / length;   
-  return stats_mean; 
+  unsigned long avg  = total / length;   
+  return (uint8)avg; 
 }
 
 //Contract doesn't state if we can assume that the array is presorted, so sort first then find the values.
 uint8 find_median(uint8 data[], uint length)
 {
   sort_array(data,length); 
-  stats_median = data[length/2]; 
-  return stats_median; 
+  return data[length >> 1]; 
+   
 }
 
 uint8 find_maximum(uint8 data[], uint length)
 {
   sort_array(data,length); 
-  stats_maximum = data[0];
-  return stats_maximum; 
+  return data[0];
+  
 }
 
  
 uint8 find_minimum(uint8 data[], uint length)
 {
   sort_array(data,length); 
-  stats_minimum = data[length -1];
-  return stats_minimum;
+  return data[length -1];  
 }
 

@@ -7,7 +7,7 @@
 #endif
 
 #ifndef uint
-#define uint unsigned char
+#define uint unsigned int
 #endif
 
 
