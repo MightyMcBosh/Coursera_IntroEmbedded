@@ -9,9 +9,23 @@
 #
 #*****************************************************************************
 
+
+ifeq($(PLATFORM),HOST)
+PLATFORM_INCLUDES = ''
+else
+PLATFORM_INCLUDES = 
+-i ./
+endif
+
+
 # Add your Source files to this variable
-SOURCES =
+SOURCES = 
+	main.c memory.c
 
 # Add your include paths to this variable
-INCLUDES = 
+INCLUDES =
+	-i ./include/common \
+	$(PLATFORM_INCLUDES)
+
+	
 
